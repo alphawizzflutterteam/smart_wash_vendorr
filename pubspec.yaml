@@ -1,0 +1,52 @@
+name: smartwashvender
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+2
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+
+  cupertino_icons: ^1.0.2
+  http:
+  fluttertoast: ^8.2.2
+  shared_preferences: ^2.1.2
+  image_picker: ^1.0.1
+  intl:
+  dropdown_button2: ^2.3.9
+  google_maps_flutter: ^2.2.5
+#  flutter_polyline_points:
+  flutter_polyline_points:
+  firebase_database: ^10.1.0
+  firebase_core: ^2.15.0
+  firebase_messaging: ^14.6.6
+  geolocator:
+  geocoding: ^2.1.0
+  permission_handler: ^10.4.3
+  cloud_firestore: ^4.8.5
+  google_maps_place_picker_mb: 3.0.0
+  google_directions_api: ^0.9.1
+  url_launcher: ^6.2.1
+  flutter_local_notifications: ^14.1.2
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/svgs/
+
