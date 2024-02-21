@@ -1,10 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -70,7 +75,7 @@ class _OrderDetailsSreenState extends State<OrderDetailsSreen> {
                   Row(
                     children: [
                       Text(
-                        'Custmer Details',
+                        'Customer Details',
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
@@ -89,7 +94,7 @@ class _OrderDetailsSreenState extends State<OrderDetailsSreen> {
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                        '${getOrderDetailModel?.data?.order?.customer.user.name}',
+                        '${getOrderDetailModel?.data?.order?.customer.user.firstName}',
                         style: TextStyle(fontSize: 12),
                       ),
                       SizedBox(
@@ -203,70 +208,74 @@ class _OrderDetailsSreenState extends State<OrderDetailsSreen> {
                         '${getOrderDetailModel?.data?.order?.address.addressName}',
                         style: TextStyle(fontSize: 12),
                       ),
-
-
                       SizedBox(
                         width: 10,
                       ),
                     ],
                   ),
-
                   SizedBox(
                     height: 20,
                   ),
-
-                  getOrderDetailModel?.data?.order?.orderStatus=="Picked your order"&&getOrderDetailModel!.data!.order!.drivers.isNotEmpty?
-
-                  InkWell(
-                    onTap: () {
-                      print(getOrderDetailModel?.data?.order?.orderStatus);
-                      print(getOrderDetailModel!.data!.order!.drivers.isNotEmpty);
-
-
-
-
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => UserMapScreen(
-
-Driverid: getOrderDetailModel?.data?.order?.drivers[0].userId,
-vendorlat: getOrderDetailModel?.data?.order?.lat,
-vendorlang: getOrderDetailModel?.data?.order?.lang,
-
-
-                       ),));
-
-                    },
-                    child: Card(
-                      elevation: 3,
-
-
-                      child: Container(
-                        height: 40,
-
-
-                        child: Center(child: Text('Track To Driver', style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),)),),),
-                  ):SizedBox(),
-
+                  getOrderDetailModel?.data?.order?.orderStatus ==
+                              "Picked your order" &&
+                          getOrderDetailModel!.data!.order!.drivers.isNotEmpty
+                      ? InkWell(
+                          onTap: () {
+                            print(
+                                getOrderDetailModel?.data?.order?.orderStatus);
+                            print(getOrderDetailModel!
+                                .data!.order!.drivers.isNotEmpty);
+                            print(getOrderDetailModel
+                                ?.data?.order?.drivers[0].userId);
+                            print(getOrderDetailModel?.data?.order?.lat);
+                            print(getOrderDetailModel?.data?.order?.lang);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserMapScreen(
+                                    Driverid: getOrderDetailModel
+                                        ?.data?.order?.drivers[0].userId,
+                                    vendorlat:
+                                        getOrderDetailModel?.data?.order?.lat,
+                                    vendorlang:
+                                        getOrderDetailModel?.data?.order?.lang,
+                                  ),
+                                ));
+                          },
+                          child: Card(
+                            elevation: 3,
+                            child: Container(
+                              height: 40,
+                              child: Center(
+                                  child: Text(
+                                'Track To Driver',
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              )),
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
                   SizedBox(
                     height: 20,
                   ),
                   InkWell(
                     onTap: () {
-
-                      launch(urlpdg);
+                      downloadPdf();
                     },
                     child: Card(
                       elevation: 3,
-
-
                       child: Container(
                         height: 40,
-
-
-                        child: Center(child: Text('download invoice', style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),)),),),
+                        child: Center(
+                            child: Text(
+                          'Download Invoice',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
                   ),
-
                   SizedBox(
                     height: 20,
                   ),
@@ -287,9 +296,6 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
                           SizedBox(
                             height: 5,
                           ),
-
-
-
                           DropdownButtonHideUnderline(
                             child: DropdownButton2(
                               isExpanded: true,
@@ -317,37 +323,32 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
                                             )),
                                 ],
                               ),
-
                               onChanged: (dynamic newValue) {
                                 setState(() {
-
-
                                   dropdowndrivervalue = newValue["first_name"];
-                                  selectDriverr=dropdowndrivervalue.toString();
- driverId=newValue["driver_id"];
- print("driver id===============================${driverId}");
+                                  selectDriverr =
+                                      dropdowndrivervalue.toString();
+                                  driverId = newValue["driver_id"];
+                                  print(
+                                      "driver id===============================${driverId}");
                                 });
                               },
                               items: driverList.map<DropdownMenuItem<dynamic>>(
                                   (dynamic map) {
                                 return DropdownMenuItem(
                                   value: map,
-                                  child: Text(map["first_name"]??''),
+                                  child: Text(map["first_name"] ?? ''),
                                 );
                               }).toList(),
                             ),
                           ),
-
-
                           SizedBox(
                             height: 10,
                           ),
-
-
                           InkWell(
                             onTap: () {
                               if (selectDriverr == '' ||
-                                  selectDriverr ==null) {
+                                  selectDriverr == null) {
                                 Fluttertoast.showToast(
                                     msg: 'Please Select Driver');
                               } else {
@@ -491,19 +492,16 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
                       ),
                     ],
                   ),
-
-
                   ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: getOrderDetailModel?.data?.order?.products.length,
+                    itemCount:
+                        getOrderDetailModel?.data?.order?.products.length,
                     itemBuilder: (context, index) {
                       var item =
                           getOrderDetailModel?.data?.order?.products[index];
                       int qty = quantity['${item?.id}'];
-                      return
-
-                        Container(
+                      return Container(
                         width: MediaQuery.of(context).size.width,
                         child: Padding(
                           padding: EdgeInsets.all(5),
@@ -563,12 +561,8 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
                           ),
                         ),
                       );
-
-
                     },
                   ),
-
-
                   SizedBox(
                     height: 30,
                   ),
@@ -724,9 +718,7 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
           'XSRF-TOKEN=eyJpdiI6ImxOc2lWRFlNS3p5eGFUeWNQTSs4Qnc9PSIsInZhbHVlIjoiNEdPdDFuYU94QXBCYVlZb3FBQWlVMjlDRnYvaHM1ekFtZzFzZWxSLzNpeVVTYmR4YVk0NCt2RHJNMnFZdGNOeFg4NWZvSHRwSTBpN294YmlrOUxqcnlKUndpU3JVdzlRYUFKZFYzYjJkOTFCTWc5dTBySGZTVDh1RklxekVEUjAiLCJtYWMiOiI3YjU4NzNhM2M1NDNmOTgxMjQzMTYxN2FhY2Y0Mjg0ZmEyZGYzM2RkODE0OTY1MmNlMDg1NGZmMmZhOWQxM2JmIiwidGFnIjoiIn0%3D; laundry_session=eyJpdiI6IjIvekt2OUFXRDdGeTVKWTBDR0c2SEE9PSIsInZhbHVlIjoiM0d6VXg4bi9FZWxxMmNiMTFlMGQ1Q05xRjBWSWNoVU15NEQ1eTRpU3RrOTRtSkpYYkF6VXgvOVVlbm1kRjMvaWFKb1RrRzRMVjNsNjdHazc0aGhkbllvS1czb2pGc25aQ21Fa0hna2NSdUhlVmlMZUdHUzBvN1ZkV0pnMnVmY24iLCJtYWMiOiI5OTYyZmE1ZGJkYTdhMGI0MGJkMTc2NTZkMmM3NzNmYzgwOGUzZTVlYTNmM2Q3YjcwZTQ1ZGU2YzE0MjY2ZWVkIiwidGFnIjoiIn0%3D'
     };
     var request = http.Request(
-        'GET',
-        Uri.parse(
-            '${AppConfig.baseUrl}/orders/${widget.OrderId}'));
+        'GET', Uri.parse('${AppConfig.baseUrl}/orders/${widget.OrderId}'));
 
     request.headers.addAll(headers);
 
@@ -756,18 +748,14 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
             totalAmountttt = getOrderDetailModel?.data?.order?.totalAmount;
           });
         } else {
-
-
-
           setState(() {
-
-            var totalamount=int.parse(getOrderDetailModel!.data!.order!.totalAmount);
-            var deliverycharge=int.parse(getOrderDetailModel!.data!.order!.deliveryCharge);
-            var discount=int.parse(getOrderDetailModel!.data!.order!.discount);
-            totalAmountttt =
-                totalamount +
-                    deliverycharge -
-                    discount;
+            var totalamount =
+                int.parse(getOrderDetailModel!.data!.order!.totalAmount);
+            var deliverycharge =
+                int.parse(getOrderDetailModel!.data!.order!.deliveryCharge);
+            var discount =
+                int.parse(getOrderDetailModel!.data!.order!.discount);
+            totalAmountttt = totalamount + deliverycharge - discount;
           });
         }
         print("get order details success");
@@ -780,7 +768,7 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
   Future<void> UpdateOrder() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    authToken=prefs.getString('authToken');
+    authToken = prefs.getString('authToken');
     var headers = {
       'Authorization': 'Bearer ${authToken.toString()}',
       'Cookie':
@@ -812,17 +800,16 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
   List driverList = [];
 
   Future<void> getDriver() async {
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    authToken=prefs.getString('authToken');
+    authToken = prefs.getString('authToken');
     var headers = {
       'Authorization': 'Bearer ${authToken.toString()}',
       'Cookie':
           'XSRF-TOKEN=eyJpdiI6IktzOHZnWEEwV2ROUTdEaW5YN3k1eFE9PSIsInZhbHVlIjoia0pXQmU4N0R0RTJ0SndLazlhRklwS0dyZnZxRWg4QmxJc0wxd1RhT3pVSndGdlNPSk5ZdUJxeFZobDY0eWRjYzQwcE9QeHlJRFIzbmtRdWlWbFNEZmFzOE1MM2lkTGxlZlhTRnNUY01vWmJHQ0dDaEg3WUZ6eWJmRCtWWHhZUUkiLCJtYWMiOiJmYWJjY2NlZDQ3ZGNkMWM0MGU3YjNmYzNkNzJmODQ1Njg3MDA4N2UxZmQxZWE3OWNmOTU5YTYzNTFlOGU4NTdiIiwidGFnIjoiIn0%3D; laundry_session=eyJpdiI6IkdnNzRKd1oxOHQ1aUkwZDRsYW5yQlE9PSIsInZhbHVlIjoiUmpMK1J2dDNNeUVEKzgxNTRsSzlER3lmcG93dTE2V0VVVmw0Nnp5R29tNURKS0UrRnV5QWc5UnUxck44WkM1THhTeWJmVHNjZkVpMHZwS2tnb2h0dDdrZGl3V2RCN2Z1emd0Z0hqd2lCMlEzbVhJa09wbFZkTGRheVBISWxDblEiLCJtYWMiOiIxYjEwYzYzZDQ5NzQ2NGNmNzYwNTNlODY5OGZmZWY3ODdkYjU4NzhjOTJmNjFkMTBmOGNjNzlhNDRjMjU3ZDFhIiwidGFnIjoiIn0%3D'
     };
-    var request = http.Request('GET',
-        Uri.parse('${AppConfig.baseUrl}/drivers'));
+    var request =
+        http.Request('GET', Uri.parse('${AppConfig.baseUrl}/drivers'));
 
     request.headers.addAll(headers);
 
@@ -841,17 +828,13 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
     }
   }
 
-
-
   Future<void> driverAssignApi() async {
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    authToken=prefs.getString('authToken');
+    authToken = prefs.getString('authToken');
     var headers = {
-      'Authorization':
-          'Bearer ${authToken.toString()}',
-    'Cookie':
+      'Authorization': 'Bearer ${authToken.toString()}',
+      'Cookie':
           'XSRF-TOKEN=eyJpdiI6IlBoeWFzYStoRlUrRmE1dk1meXkvNmc9PSIsInZhbHVlIjoiaHlpSEthcFlMZlF5QmV3YmFIbytxdHZ1YnN5dHJ6aTZKYmVFZVZudW9OazlHYzl5OUlYUy8zUVlIZlAvUk9xbmZKUHY1Qy9tYjBaYmNsc3dVeUlTT2FtSVJLWFVOeVpQdnJLVWhxVzNaZGZvTFBpUjJaUGR4cXQ1ZUEwOVhJR0MiLCJtYWMiOiIxY2JmZTQxZTcyMGY5ZTVjOWQ5NmFhYmI1NGI4YWY2NTBlMmU3MDE4NDUzZWZjOWQzMDM2ZjNjNzM2NDU3MjM4IiwidGFnIjoiIn0%3D; laundry_session=eyJpdiI6IjJEY2g0aWFJdHRIRjc0UWlxKzVOcUE9PSIsInZhbHVlIjoiRmZCZnh0ZFNoNStZcjJhME41SE4wV3Z6TlFxZkhJb0FkNm9xWmU3cTBFMkdjcnVVUlJaRjhsRFNwcTQ2YWwrZm90OU0vZGNDcXRPanorRGN0WktQVVd3WENESjc4dFU4YlpFNlNjaGRPYkUzQTQwS2ovYXUvK1V0Z3JpZnhmTmciLCJtYWMiOiJjOGJhNDg0ZWUxOGYyZTBmNDUxZmUwMWZjYzQyN2U3ZDZmMTYyZDk1NWI1NWU1MTUxNTA4NjNlODU3M2U1MTU4IiwidGFnIjoiIn0%3D'
     };
     var request = http.Request(
@@ -866,55 +849,73 @@ vendorlang: getOrderDetailModel?.data?.order?.lang,
     print(request.url);
 
     if (response.statusCode == 200) {
-      var result=await response.stream.bytesToString();
-      var finalresult=jsonDecode(result);
-      if(finalresult['message']=="Driver Is Already Assigned"){
-
+      var result = await response.stream.bytesToString();
+      var finalresult = jsonDecode(result);
+      if (finalresult['message'] == "Driver Is Already Assigned") {
         Fluttertoast.showToast(msg: finalresult['message']);
-      }
-      else{
-
+      } else {
         getOrderDetails();
         Fluttertoast.showToast(msg: finalresult['message']);
         // Navigator.pop(context);
       }
-
     } else {
       print(response.reasonPhrase);
     }
   }
 
-
-
-
-  Future<void> dounloadincoice() async{
-
+  var urlpdg;
+  Future<void> dounloadincoice() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    authToken=prefs.getString('authToken');
+    authToken = prefs.getString('authToken');
     var headers = {
-      'Authorization':
-      'Bearer ${authToken.toString()}',  };
-    var request = http.Request('POST', Uri.parse('${AppConfig.baseUrl1}/getinvoice/${widget.OrderId}'));
+      'Authorization': 'Bearer ${authToken.toString()}',
+    };
+    var request = http.Request('POST',
+        Uri.parse('${AppConfig.baseUrl1}/getinvoice/${widget.OrderId}'));
 
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      var result =await response.stream.bytesToString();
-      var finalresult=jsonDecode(result);
+      var result = await response.stream.bytesToString();
+      var finalresult = jsonDecode(result);
 
       setState(() {
-        urlpdg=finalresult['pdf_url'];
+        urlpdg = finalresult['pdf_url'];
       });
-
+    } else {
+      print(response.reasonPhrase);
     }
-    else {
-    print(response.reasonPhrase);
-    }
-
   }
 
-  var urlpdg;
+  Directory? dir;
+  downloadPdf() async {
+    Dio dio = Dio();
+    try {
+      var status = await Permission.storage.request();
+      if (status.isGranted) {
+        String fileName = urlpdg.toString().split('/').last;
+        print("FileName: $fileName");
+        dir = Directory('/storage/emulated/0/Download/'); // for android
+        if (!await dir!.exists()) dir = await getExternalStorageDirectory();
+        String path = "${dir?.path}$fileName";
+        await dio.download(
+          urlpdg.toString(),
+          path,
+          onReceiveProgress: (recivedBytes, totalBytes) {
+            print(recivedBytes);
+          },
+          deleteOnError: true,
+        ).then((value) async =>
+            await Share.shareXFiles([XFile(path)], text: fileName));
+      } else {
+        launch(urlpdg.toString());
+      }
+    } catch (e, stackTrace) {
+      print(stackTrace);
+      throw Exception(e);
+    }
+  }
 }
