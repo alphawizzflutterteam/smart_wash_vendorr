@@ -491,7 +491,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
   DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
-    
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -685,7 +684,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           height: 50,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8)),
-                          child: Center(child: Text('Select From Gallery')),
+                          child: Center(child: Text('Take a Photo')),
                         ),
                       ),
                     )
@@ -861,7 +860,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
         );
         Fluttertoast.showToast(msg: finalll['message']);
       });
-      Navigator.pop(context);
+      Navigator.pop(context,true);
       print("update success");
 
       //getdata();

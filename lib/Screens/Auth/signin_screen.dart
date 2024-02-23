@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartwashvender/Screens/Auth/forgotPass.dart';
 import 'package:smartwashvender/Screens/Auth/signUpScreen.dart';
 import '../../Api Services/allApiscreen.dart';
 import '../../Custom Widget/costomTextfield.dart';
@@ -64,14 +65,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PassRecovery(),
+                    )),
+                    child: Text(
                       'Forgot Password?',
                       style: TextStyle(fontSize: 13, color: Colors.grey),
                     ),
-                  ],
+                  ),
                 ),
                 SizedBox(
                   height: 40,
