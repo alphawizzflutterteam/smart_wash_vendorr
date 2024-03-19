@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: AppColors.gold // Background color
+                        backgroundColor: AppColors.gold // Background color
                         ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

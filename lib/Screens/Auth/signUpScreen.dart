@@ -292,7 +292,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           counterText: '',
                         ),
                         validator: (value) {
-                          if (value!.isEmpty||value==null) {
+                          if (value!.isEmpty || value == null) {
                             return 'Please enter an email address';
                           } else if (!RegExp(
                                   r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
@@ -356,9 +356,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => PlacePicker(
-                                // apiKey:"AIzaSyBl2FY2AnfX6NwR4LlOOlT9dDve0VwQLAA",
+                                // apiKey:"AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
                                 apiKey:
-                                    "AIzaSyDPsdTq-a4AHYHSNvQsdAlZgWvRu11T9pM",
+                                    "AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
 
                                 onPlacePicked: (result) {
                                   print(result.formattedAddress);
@@ -387,7 +387,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PlacePicker(
-                                      // apiKey:"AIzaSyBl2FY2AnfX6NwR4LlOOlT9dDve0VwQLAA",
+                                      // apiKey:"AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
                                       apiKey:
                                           "AIzaSyDPsdTq-a4AHYHSNvQsdAlZgWvRu11T9pM",
 
@@ -660,7 +660,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: AppColors.gold // Background color
+                        backgroundColor: AppColors.gold // Background color
                         ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

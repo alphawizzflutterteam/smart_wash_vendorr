@@ -204,7 +204,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
 //     context,
 //     MaterialPageRoute(
 //       builder: (context) => PlacePicker(
-//         // apiKey:"AIzaSyBl2FY2AnfX6NwR4LlOOlT9dDve0VwQLAA",
+//         // apiKey:"AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
 //         apiKey:"AIzaSyDPsdTq-a4AHYHSNvQsdAlZgWvRu11T9pM",
 //
 //         onPlacePicked: (result) {
@@ -234,30 +234,32 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           hintText: "Enter Address",
                           suffixIcon: IconButton(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => PlacePicker(
-                                //       // apiKey:"AIzaSyBl2FY2AnfX6NwR4LlOOlT9dDve0VwQLAA",
-                                //       apiKey:"AIzaSyDPsdTq-a4AHYHSNvQsdAlZgWvRu11T9pM",
-                                //
-                                //       onPlacePicked: (result) {
-                                //         print(result.formattedAddress);
-                                //         setState(() {
-                                //           addressController.text =
-                                //               result.formattedAddress.toString();
-                                //           latee = result.geometry!.location.lat;
-                                //           longaa = result.geometry!.location.lng;
-                                //
-                                //         });
-                                //         Navigator.of(context).pop();
-                                //       },
-                                //       initialPosition: LatLng(
-                                //           22.719568,75.857727),
-                                //       useCurrentLocation: true,
-                                //     ),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PlacePicker(
+                                      // apiKey:"AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
+                                      apiKey:
+                                          "AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
+
+                                      onPlacePicked: (result) {
+                                        print(result.formattedAddress);
+                                        setState(() {
+                                          addressController.text = result
+                                              .formattedAddress
+                                              .toString();
+                                          latee = result.geometry!.location.lat;
+                                          longaa =
+                                              result.geometry!.location.lng;
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                      initialPosition:
+                                          LatLng(22.719568, 75.857727),
+                                      useCurrentLocation: true,
+                                    ),
+                                  ),
+                                );
                               },
                               icon: Icon(Icons.location_searching_rounded)),
                           suffixStyle: const TextStyle(color: Colors.grey),
@@ -860,7 +862,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
         );
         Fluttertoast.showToast(msg: finalll['message']);
       });
-      Navigator.pop(context,true);
+      Navigator.pop(context, true);
       print("update success");
 
       //getdata();
