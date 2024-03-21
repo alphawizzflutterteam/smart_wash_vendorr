@@ -26,7 +26,7 @@
 //   double _originLatitude = 22.7196, _originLongitude = 75.8577;
 //   double _destLatitude = 23.2599, _destLongitude = 77.4126;
 //   // String googleAPiKey = "AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs";
-//   String googleAPiKey = "AIzaSyDPsdTq-a4AHYHSNvQsdAlZgWvRu11T9pM";
+//   String googleAPiKey = "AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs";
 //   late BitmapDescriptor myIcon;
 //   static final CameraPosition _kGooglePlex = CameraPosition(
 //     target: LatLng(22.7468712, 75.8979976),
@@ -450,7 +450,7 @@ class _UserMapScreenState extends State<UserMapScreen> {
   Future<String> getRouteCoordinates(LatLng l1, LatLng l2) async {
     String url =
         // "https://maps.googleapis.com/maps/api/directions/json?origin=${l1.latitude},${l1.longitude}&destination=${l2.latitude},${l2.longitude}&key=AIzaSyDi_XlHtopewZHtpWWxIO-EQ7mCegHr5o0";
-        "https://maps.googleapis.com/maps/api/directions/json?origin=${l1.latitude},${l1.longitude}&destination=${l2.latitude},${l2.longitude}&key=AIzaSyDPsdTq-a4AHYHSNvQsdAlZgWvRu11T9pM";
+        "https://maps.googleapis.com/maps/api/directions/json?origin=${l1.latitude},${l1.longitude}&destination=${l2.latitude},${l2.longitude}&key=AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs";
     http.Response response = await http.get(Uri.parse(url));
     print(url);
     Map values = jsonDecode(response.body);

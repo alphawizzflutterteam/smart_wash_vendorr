@@ -356,10 +356,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => PlacePicker(
-                                // apiKey:"AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
                                 apiKey:
                                     "AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
-
                                 onPlacePicked: (result) {
                                   print(result.formattedAddress);
                                   setState(() {
@@ -389,7 +387,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     builder: (context) => PlacePicker(
                                       // apiKey:"AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
                                       apiKey:
-                                          "AIzaSyDPsdTq-a4AHYHSNvQsdAlZgWvRu11T9pM",
+                                          "AIzaSyCBiZkX5n-WccQRkQ_s3yX3gd_QD7yFlrs",
 
                                       onPlacePicked: (result) {
                                         print(result.formattedAddress);
